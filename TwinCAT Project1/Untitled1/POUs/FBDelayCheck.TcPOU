@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FBDelayCheck" Id="{4c0e5754-e1f9-4158-a953-9d1af81ab7c1}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FBDelayCheck
+VAR_INPUT
+	in:INT;
+	delaytime :TIME;  //T#0.2s
+END_VAR
+
+VAR_OUTPUT
+	timeout_flag :BOOL;
+	timeout_nums :INT;
+END_VAR
+
+
+VAR
+	
+	data1		:INT;
+	fbRtrig 	:R_TRIG;
+	fbTon 		:TON;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+fbTon(IN:= (in = data1) ,PT:= delaytime);
+
+fbRtrig(CLK:= fbTon.Q, Q=>timeout_flag);
+
+IF timeout_flag THEN
+	timeout_nums := timeout_nums+1;
+END_IF
+
+data1 :=in;
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="FBDelayCheck">
+      <LineId Id="20" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="56" Count="3" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
